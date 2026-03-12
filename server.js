@@ -12,9 +12,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Raíz del proyecto (compatible con Render y local)
+const ROOT = process.cwd();
+
 // Servir archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(ROOT, 'public')));
+app.use('/css', express.static(path.join(ROOT, 'css')));
+app.use('/js', express.static(path.join(ROOT, 'js')));
 
 // Configurar transporter de Nodemailer
 function createTransporter() {
@@ -176,7 +180,7 @@ function generarCorreoInterno(datos) {
 
 // Ruta principal
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(ROOT, 'public', 'index.html'));
 });
 
 // Endpoint para procesar reservas
